@@ -1,13 +1,13 @@
 package com.smart.demo.domain;
 
 /**
- * Description TODO
+ * Description TODO 测试
  * Author Cloudr
  * Date 2020/3/15 17:37
  **/
 public class Student {
-        private String name;
-        private int age;
+    private String name;
+    private int age;
 
     public Student() {
     }
@@ -18,19 +18,19 @@ public class Student {
     }
 
     public void setName(String name) {
-            this.name = name;
-        }
+        this.name = name;
+    }
 
-        public void setAge(int age) {
-            this.age = age;
-        }
+    public void setAge(int age) {
+        this.age = age;
+    }
 
-        public String getName() {
-            return name;
-        }
+    public String getName() {
+        return name;
+    }
 
-        public int getAge() {
-            return age;
-        }
+    public int getAge() {
+        return age;
+    }
 
 }

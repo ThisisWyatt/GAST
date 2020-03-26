@@ -20,7 +20,7 @@ public class userJsonTest {
         try {
             File jsonFile = new File(fileName);
             FileReader fileReader = new FileReader(jsonFile);
-            Reader reader = new InputStreamReader(new FileInputStream(jsonFile),"utf-8");
+            Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "utf-8");
             int ch = 0;
             StringBuffer sb = new StringBuffer();
             while ((ch = reader.read()) != -1) {
@@ -42,8 +42,8 @@ public class userJsonTest {
         String s = readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
         JSONArray users = jobj.getJSONArray("User");//构建JSONArray数组
-        for (int i = 0 ; i < users.size();i++){
-            JSONObject key = (JSONObject)users.get(i);
+        for (int i = 0; i < users.size(); i++) {
+            JSONObject key = (JSONObject) users.get(i);
             String name = (String) key.get("name");
             int age = (int) key.get("age");
             System.out.println(name);

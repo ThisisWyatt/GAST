@@ -1,5 +1,6 @@
 package com.smart.demo.test;
 //import com.alibaba.fastjson.JSONArray;
+
 import com.smart.demo.domain.Student;
 import net.sf.json.JSONArray;
 
@@ -20,7 +21,7 @@ import java.util.Map;
 public class saveJsonTest {
     private static void createJsonFile(Object jsonData, String filePath) {
 
-        String content=com.alibaba.fastjson.JSONArray.toJSONString(jsonData);
+        String content = com.alibaba.fastjson.JSONArray.toJSONString(jsonData);
         // 生成json格式文件
         try {
             // 保证创建一个新文件
@@ -42,7 +43,7 @@ public class saveJsonTest {
         }
     }
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
 
         Student student1 = new Student();
         student1.setName("cc1");
@@ -52,14 +53,14 @@ public class saveJsonTest {
         student2.setName("cc2");
         student2.setAge(21);
 
-        List<Student> list=new ArrayList<>();
+        List<Student> list = new ArrayList<>();
         list.add(student1);
         list.add(student2);
-        Map<String,List> map2=new HashMap<>();
-        map2.put("testKey",list);
-        JSONArray jsonArray1=net.sf.json.JSONArray.fromObject(map2);
+        Map<String, List> map2 = new HashMap<>();
+        map2.put("testKey", list);
+        JSONArray jsonArray1 = net.sf.json.JSONArray.fromObject(map2);
 
-       createJsonFile(jsonArray1,"X:/Test/");
+        createJsonFile(jsonArray1, "X:/Test/");
     }
 
 }

@@ -20,7 +20,7 @@ public class JsonTest {
         try {
             File jsonFile = new File(fileName);
             FileReader fileReader = new FileReader(jsonFile);
-            Reader reader = new InputStreamReader(new FileInputStream(jsonFile),"utf-8");
+            Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "utf-8");
             int ch = 0;
             StringBuffer sb = new StringBuffer();
             while ((ch = reader.read()) != -1) {
@@ -42,15 +42,15 @@ public class JsonTest {
         String s = readJsonFile(path);
         JSONObject jobj = JSON.parseObject(s);
         JSONArray movies = jobj.getJSONArray("RECORDS");//构建JSONArray数组
-        for (int i = 0 ; i < movies.size();i++){
-            JSONObject key = (JSONObject)movies.get(i);
-            String name = (String)key.get("name");
-            String director = (String)key.get("director");
-            String scenarist=((String)key.get("scenarist"));
-            String actors=((String)key.get("actors"));
-            String type=((String)key.get("type"));
-            String ratingNum=((String)key.get("ratingNum"));
-            String tags=((String)key.get("tags"));
+        for (int i = 0; i < movies.size(); i++) {
+            JSONObject key = (JSONObject) movies.get(i);
+            String name = (String) key.get("name");
+            String director = (String) key.get("director");
+            String scenarist = ((String) key.get("scenarist"));
+            String actors = ((String) key.get("actors"));
+            String type = ((String) key.get("type"));
+            String ratingNum = ((String) key.get("ratingNum"));
+            String tags = ((String) key.get("tags"));
             System.out.println(name);
             System.out.println(director);
             System.out.println(scenarist);
