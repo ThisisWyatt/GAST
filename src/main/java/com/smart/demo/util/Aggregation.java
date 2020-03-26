@@ -5,15 +5,11 @@ import com.smart.demo.domain.Point;
 import java.math.BigDecimal;
 
 /**
- * Description TODO
+ * Description TODO  递归标记
  * Author Cloudr
  * Date 2020/3/25 22:04
  **/
 public class Aggregation {
-
-    /**
-     * @Descriptuion TODO 递归标记
-     **/
 
     /**
      *@Descriptuion TODO 按照差值递归输出相同一组的值
