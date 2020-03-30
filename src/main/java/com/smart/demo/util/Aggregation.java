@@ -32,7 +32,7 @@ public class Aggregation {
 //                System.out.println("差值 " + (points[i][j].getNum().subtract(point.getNum())).abs());
 
                 pointMap.put(point, pointMap.getOrDefault(point, 0) + 1);
-                if(!points[i][j].equals(point))
+                if (!points[i][j].equals(point))
                     points[i][j] = pointZero;
                 search(i, j + 1, point, points, M, N, intervalNum, pointZero, pointMap);
                 search(i + 1, j, point, points, M, N, intervalNum, pointZero, pointMap);
@@ -46,12 +46,14 @@ public class Aggregation {
         }
     }
 
-    public static void main(String[] args) {
-
-        long currentTime = System.currentTimeMillis();
+    /**
+     * @Descriptuion TODO 标记后生成一个map,  point为同一组中的第一个点，Integer为个数
+     **/
+    public Map<Point, Integer> markResult() {
 
         Point pointZero = new Point(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0)); //判断符合在一组后 给该point赋此值
-        Point[][] points = ConversionToArrays.setArrays();
+        ConversionToArrays conversionToArrays = new ConversionToArrays();
+        Point[][] points = conversionToArrays.setArrays();
         long searchTime = System.currentTimeMillis();
         int M = points.length;
         int N = points[0].length;
@@ -67,7 +69,7 @@ public class Aggregation {
         Map<Point, Integer> pointMap = new HashMap<>();
 
 //        设定判定为同一组的差值 正负差值为 intervalNum 即为一组
-        BigDecimal intervalNum = new BigDecimal(0.2);
+        BigDecimal intervalNum = new BigDecimal(2);
 
         for (int i = 0; i < M; ++i) {
             for (int j = 0; j < N; ++j) {
@@ -76,15 +78,31 @@ public class Aggregation {
             }
         }
 
-        for(Map.Entry<Point,Integer> entry:pointMap.entrySet()){
-            System.out.println("value: "+entry.getKey()+" num: "+entry.getValue());
-        }
-        System.out.println(pointMap.size());
-
-
         System.out.println("main Cost: " + (System.currentTimeMillis() - searchTime) + " ms");
 
-        System.out.println("All  cost: " + (System.currentTimeMillis() - currentTime) + " ms");
+        return pointMap;
     }
+
+    /**
+     * @Descriptuion TODO 测试markResult()方法
+     **/
+    public static void main(String[] args) {
+
+        long currentTime = System.currentTimeMillis();
+
+        Aggregation aggregation = new Aggregation();
+
+        Map<Point, Integer> test = aggregation.markResult();
+
+//        for(Map.Entry<Point,Integer> entry:test.entrySet()){
+//            System.out.println("value: "+entry.getKey()+" num: "+entry.getValue());
+//        }
+//        System.out.println(test.size());
+
+        System.out.println("All  cost: " + (System.currentTimeMillis() - currentTime) + " ms");
+
+
+    }
+
 
 }

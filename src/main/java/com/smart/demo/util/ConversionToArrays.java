@@ -16,7 +16,6 @@ import java.util.Map;
  **/
 public class ConversionToArrays {
 
-
     private static List<Point> listPoint = ReadData.readOriginalDate(); //获取原文件的数据
 
     /**
@@ -37,7 +36,7 @@ public class ConversionToArrays {
 //        for (Point point : pointArrays) {
 //            System.out.println(point);
 //        }
-        for(int i=0;i<30;++i){
+        for (int i = 0; i < 30; ++i) {
             System.out.println(pointArrays[i]);
 
         }
@@ -117,7 +116,7 @@ public class ConversionToArrays {
     /**
      * @Descriptuion TODO 生成处理好的二维数组模型
      **/
-    public static Point[][] setArrays() {
+    public Point[][] setArrays() {
 
 //        按照0.000028的间隔将lat值从小到大分成M份
         Point[] sortByLat = sortByDifferenceOfLat();
@@ -141,7 +140,7 @@ public class ConversionToArrays {
 
         Point[][] pointArrays = new Point[M][N];
         Point point = new Point();
-        int size=listPoint.size();
+        int size = listPoint.size();
 //        不要使用foreach、Iterator、loop with size 效率会偏慢 
         for (int i = 0; i < size; ++i) {
             point = listPoint.get(i);
@@ -154,7 +153,7 @@ public class ConversionToArrays {
             pointArrays[i0][j0] = point;
         }
 
-        System.out.println("数据条数"+listPoint.size());
+//        System.out.println("数据条数"+listPoint.size());
         return pointArrays;
     }
 
@@ -164,7 +163,6 @@ public class ConversionToArrays {
     public static void main(String[] args) {
 
         sortByDifferenceOfNum();
-
 
 
 //        long zero = System.currentTimeMillis();
