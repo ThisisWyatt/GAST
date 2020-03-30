@@ -18,7 +18,7 @@ public class Aggregation {
     /**
      * @Descriptuion TODO 按照差值递归输出相同一组的值
      **/
-    private static void search(int i, int j, Point point, Point[][] points, int M, int N, BigDecimal intervalNum, Point pointZero, Map<Point, Integer> pointMap) {
+    private static void search(int i, int j, Point point, Point[][] points, int M, int N, BigDecimal intervalNum, Point pointZero, Map<Point, Point> pointMap) {
 
         if ((i >= 0 && i < M) && (j >= 0 && j < N)) {
 
@@ -32,7 +32,13 @@ public class Aggregation {
 
 //                System.out.println("差值 " + (points[i][j].getNum().subtract(point.getNum())).abs());
 
-                pointMap.put(point, pointMap.getOrDefault(point, 0) + 1);
+                if(pointMap.get(point)!=null){  //如果map中不为空，则选出一个num值最大的point为value
+                    if( pointMap.get(point).getNum().compareTo(points[i][j].getNum())<0 )
+                        pointMap.put(point,points[i][j]);
+                }else{ //为空则key value均为起始点point
+                    pointMap.put(point,point);
+                }
+
                 if (!points[i][j].equals(point))
                     points[i][j] = pointZero;
                 search(i, j + 1, point, points, M, N, intervalNum, pointZero, pointMap);
@@ -50,7 +56,7 @@ public class Aggregation {
     /**
      * @Descriptuion TODO 标记后生成一个map,  point为同一组中的第一个点，Integer为个数
      **/
-    public Map<Point, Integer> markResult() {
+    public Map<Point, Point> markResult() {
 
         Point pointZero = new Point(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0)); //判断符合在一组后 给该point赋此值
         ConversionToArrays conversionToArrays = new ConversionToArrays();
@@ -67,7 +73,8 @@ public class Aggregation {
             }
         }
 
-        Map<Point, Integer> pointMap = new HashMap<>();
+//        key为同一组的起始的point , value为一组中num值最大的point
+        Map<Point, Point> pointMap = new HashMap<>();
 
 //        设定判定为同一组的差值 正负差值为 intervalNum 即为一组
         BigDecimal intervalNum = new BigDecimal(2);
@@ -93,12 +100,12 @@ public class Aggregation {
 
         Aggregation aggregation = new Aggregation();
 
-        Map<Point, Integer> test = aggregation.markResult();
+        Map<Point, Point> test = aggregation.markResult();
 
-//        for(Map.Entry<Point,Integer> entry:test.entrySet()){
-//            System.out.println("value: "+entry.getKey()+" num: "+entry.getValue());
-//        }
-//        System.out.println(test.size());
+        for(Map.Entry<Point,Point> entry:test.entrySet()){
+            System.out.println(" num: "+entry.getValue().getNum());
+        }
+        System.out.println(test.size());
 
         System.out.println("All  cost: " + (System.currentTimeMillis() - currentTime) + " ms");
 

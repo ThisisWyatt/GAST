@@ -1,11 +1,13 @@
 package com.smart.demo;
 
+import com.smart.demo.domain.Point;
 import com.smart.demo.domain.Student;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +64,15 @@ class DemoApplicationTests {
         for(int i:a){
             System.out.println(i);
         }
+    }
+
+    @Test
+    void testMap(){
+        Map<Point,Integer>map=new HashMap<>();
+        Point point1=new Point(new BigDecimal(1),new BigDecimal(1),new BigDecimal(1));
+        Point point2=new Point(new BigDecimal(1),new BigDecimal(1),new BigDecimal(1));
+        map.put(point1,1);
+        System.out.println(map.get(point2));
     }
 
 
