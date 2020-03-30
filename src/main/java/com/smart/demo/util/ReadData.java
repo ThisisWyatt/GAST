@@ -57,7 +57,7 @@ public class ReadData {
             listPoint.add(point);
         }
 
-
+        System.out.println("hello world");
 //
         System.out.println("I/O  Cost: " + (System.currentTimeMillis() - IOCost) + "ms");
 
