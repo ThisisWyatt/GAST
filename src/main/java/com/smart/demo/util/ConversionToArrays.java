@@ -127,7 +127,6 @@ public class ConversionToArrays {
         double doubleM = bigDecimalM.doubleValue();
         int M = (int) (Math.round(doubleM)) + 1; //BigDecimal->long(round)->int 更加精确？ 感觉应该是
 
-
 //        按照0.000034的间隔将lng值从小到大分成N份
         Point[] sortByLng = sortByDifferenceOfLng();
         BigDecimal miniLng = sortByLng[0].getLng();//最小Lng值
@@ -136,7 +135,6 @@ public class ConversionToArrays {
                 .divide(intervalLng, 5, RoundingMode.HALF_UP);
         double doubleN = bigDecimalN.doubleValue();
         int N = (int) (Math.ceil(doubleN)) + 1;
-
 
         Point[][] pointArrays = new Point[M][N];
         Point point = new Point();
@@ -151,6 +149,7 @@ public class ConversionToArrays {
             double doubleJ = bigDecimalJ.doubleValue();
             int j0 = (int) (Math.ceil(doubleJ));
             pointArrays[i0][j0] = point;
+//            System.out.println("pointArrays["+i0+"]["+j0+"]");
         }
 
 //        System.out.println("数据条数"+listPoint.size());

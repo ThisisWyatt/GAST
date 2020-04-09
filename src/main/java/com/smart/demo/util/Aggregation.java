@@ -1,9 +1,13 @@
 package com.smart.demo.util;
 
 import com.smart.demo.domain.Point;
+import com.smart.demo.domain.Points;
+import com.smart.demo.test.saveJsonTest;
+import net.sf.json.JSONObject;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -18,45 +22,35 @@ public class Aggregation {
     /**
      * @Descriptuion TODO 按照差值递归输出相同一组的值
      **/
-    private static void search(int i, int j, Point point, Point[][] points, int M, int N, BigDecimal intervalNum, Point pointZero, Map<Point, Point> pointMap) {
+    private static void search(int i, int j, BigDecimal index, Point[][] points, int M, int N, BigDecimal intervalNum, Point pointZero, Map<BigDecimal, Point> pointMap) {
+        if ((i >= 0 && i < M) && (j >= 0 && j < N) &&! (points[i][j].equals(pointZero))) {
+            Point IndexVale=new Point();
+            int compare = ((points[i][j].getNum().subtract(index)).abs()).compareTo(intervalNum); //差值
+            if ( (compare <= 0)) { //差值在预定范围内 可继续向下递归搜索/**/
 
-        if ((i >= 0 && i < M) && (j >= 0 && j < N)) {
+                if(pointMap.get(index).getNum().compareTo(points[i][j].getNum())<=0)
+                    IndexVale=points[i][j];
 
-            int compare = ((points[i][j].getNum().subtract(point.getNum())).abs()).compareTo(intervalNum); //差值
+                pointMap.put(index, IndexVale);
 
-//            if (compare > 0) {
-//                System.out.println("不满足,num=" + points[i][j].getNum() + " 差值=" + (points[i][j].getNum().subtract(point.getNum())).abs());
-//            }
+                points[i][j]=pointZero;
 
-            if (!points[i][j].equals(pointZero) && (compare < 0 || compare == 0)) {
-
-//                System.out.println("差值 " + (points[i][j].getNum().subtract(point.getNum())).abs());
-
-                if(pointMap.get(point)!=null){  //如果map中不为空，则选出一个num值最大的point为value
-                    if( pointMap.get(point).getNum().compareTo(points[i][j].getNum())<0 )
-                        pointMap.put(point,points[i][j]);
-                }else{ //为空则key value均为起始点point
-                    pointMap.put(point,point);
-                }
-
-                if (!points[i][j].equals(point))
-                    points[i][j] = pointZero;
-                search(i, j + 1, point, points, M, N, intervalNum, pointZero, pointMap);
-                search(i + 1, j, point, points, M, N, intervalNum, pointZero, pointMap);
-                search(i, j - 1, point, points, M, N, intervalNum, pointZero, pointMap);
-                search(i - 1, j, point, points, M, N, intervalNum, pointZero, pointMap);
-                search(i - 1, j + 1, point, points, M, N, intervalNum, pointZero, pointMap);
-                search(i + 1, j + 1, point, points, M, N, intervalNum, pointZero, pointMap);
-                search(i + 1, j - 1, point, points, M, N, intervalNum, pointZero, pointMap);
-                search(i - 1, j - 1, point, points, M, N, intervalNum, pointZero, pointMap);
+                search(i, j + 1, index, points, M, N, intervalNum, pointZero, pointMap);
+                search(i + 1, j, index, points, M, N, intervalNum, pointZero, pointMap);
+                search(i, j - 1, index, points, M, N, intervalNum, pointZero, pointMap);
+                search(i - 1, j, index, points, M, N, intervalNum, pointZero, pointMap);
+                search(i - 1, j + 1, index, points, M, N, intervalNum, pointZero, pointMap);
+                search(i + 1, j + 1, index, points, M, N, intervalNum, pointZero, pointMap);
+                search(i + 1, j - 1, index, points, M, N, intervalNum, pointZero, pointMap);
+                search(i - 1, j - 1, index, points, M, N, intervalNum, pointZero, pointMap);
             }
         }
     }
 
     /**
-     * @Descriptuion TODO 标记后生成一个map,  point为同一组中的第一个点，Integer为个数
+     * @Descriptuion TODO 标记后生成一个map,  key为同一组的起始的point的num值 , value为一组中num值最大的point
      **/
-    public Map<Point, Point> markResult() {
+    public Map<BigDecimal, Point> markResult() {
 
         Point pointZero = new Point(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0)); //判断符合在一组后 给该point赋此值
         ConversionToArrays conversionToArrays = new ConversionToArrays();
@@ -68,21 +62,23 @@ public class Aggregation {
 //          为null的a[i][j]设默认值
         for (int i = 0; i < M; ++i) {
             for (int j = 0; j < N; ++j) {
-                if (points[i][j] == null)
+                if (points[i][j] == null) {
                     points[i][j] = pointZero;
+                }
             }
         }
 
-//        key为同一组的起始的point , value为一组中num值最大的point
-        Map<Point, Point> pointMap = new HashMap<>();
+//      key为同一组的起始的point , value为一组中num值最大的point
+        Map<BigDecimal, Point> pointMap = new HashMap<>();
 
 //        设定判定为同一组的差值 正负差值为 intervalNum 即为一组
-        BigDecimal intervalNum = new BigDecimal(2);
-
+        BigDecimal intervalNum = new BigDecimal(100);
         for (int i = 0; i < M; ++i) {
             for (int j = 0; j < N; ++j) {
-                if (!points[i][j].equals(pointZero))
-                    search(i, j, points[i][j], points, M, N, intervalNum, pointZero, pointMap);
+                if (!points[i][j].equals(pointZero)) {
+                    BigDecimal index = points[i][j].getNum();
+                    search(i, j, index, points, M, N, intervalNum, pointZero, pointMap);
+                }
             }
         }
 
@@ -100,15 +96,31 @@ public class Aggregation {
 
         Aggregation aggregation = new Aggregation();
 
-        Map<Point, Point> test = aggregation.markResult();
+//        聚合后得到的map key代表和这个点为起始搜索点的num值 value代表这一组num值高的点
+        Map<BigDecimal, Point> test = aggregation.markResult();
+//
+//
+//
+//
+//
+//        将Map转为List
+        List<Points> list = Map2ListUtil.Map2List(test);
 
-        for(Map.Entry<Point,Point> entry:test.entrySet()){
-            System.out.println(" num: "+entry.getValue().getNum());
-        }
-        System.out.println(test.size());
+        Map<String, List> result = new HashMap<>();
+
+        result.put("cc", list);
+//        生成JSONObject
+        JSONObject jsonFile = JSONObject.fromObject(result);
+//         存到本地
+        saveJsonTest.createJsonFile(jsonFile, "X:/Tests.json");
+//
+//
+//
+//
+
+        System.out.println("生成map大小为：" + test.size());
 
         System.out.println("All  cost: " + (System.currentTimeMillis() - currentTime) + " ms");
-
 
     }
 

@@ -14,16 +14,10 @@ public class AggregationTest {
     private static void search(int i, int j, BigDecimal value, Point[][] points, int M, int N, BigDecimal intervalNum, Point pointZero) {
         if ((i > 0 && i < M) && (j > 0 && j < N)) {
             if (!points[i][j].equals(pointZero) && (((points[i][j].getNum().subtract(value)).abs()).compareTo(intervalNum) < 0 || ((points[i][j].getNum().subtract(value)).abs()).compareTo(intervalNum) == 0)) {
-                System.out.println("---------------------------------");
-                System.out.println("value=" + value);
-                System.out.println("points[" + i + "][" + j + "].getNum()=" + points[i][j].getNum());
-                System.out.println("points[i][j].getNum().subtract(value)=" + points[i][j].getNum().subtract(value));
-                System.out.println("points[i][j].getNum().subtract(value).abs()=" + points[i][j].getNum().subtract(value).abs());
-                System.out.println("((points[i][j].getNum().subtract(value)).abs())" + ((points[i][j].getNum().subtract(value)).abs()));
-                System.out.println(points[i][j]);
-                System.out.println("--------------------------------");
-//                System.out.println(points[i][j]);
+
+                System.out.println(value+" "+points[i][j].getNum());
                 points[i][j] = pointZero;
+
                 search(i, j + 1, value, points, M, N, intervalNum, pointZero);
                 search(i + 1, j, value, points, M, N, intervalNum, pointZero);
                 search(i, j - 1, value, points, M, N, intervalNum, pointZero);
@@ -54,7 +48,7 @@ public class AggregationTest {
         points[3][2] = new Point(new BigDecimal(4), new BigDecimal(3), new BigDecimal(2));
         points[3][3] = new Point(new BigDecimal(5), new BigDecimal(3), new BigDecimal(3));
 
-        BigDecimal intervalNum = new BigDecimal(2);
+        BigDecimal intervalNum = new BigDecimal(1);
 
         Point pointZero = new Point(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0));
 

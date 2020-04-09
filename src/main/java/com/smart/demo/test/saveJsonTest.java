@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,7 @@ import java.util.Map;
  * Date 2020/3/18 18:54
  **/
 public class saveJsonTest {
-    private static void createJsonFile(Object jsonData, String filePath) {
+    public static void createJsonFile(Object jsonData, String filePath) {
 
         String content = com.alibaba.fastjson.JSONArray.toJSONString(jsonData);
         // 生成json格式文件
@@ -34,7 +35,7 @@ public class saveJsonTest {
             }
             file.createNewFile();
             // 将格式化后的字符串写入文件
-            Writer write = new OutputStreamWriter(new FileOutputStream(file), "UTF-8");
+            Writer write = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
             write.write(content);
             write.flush();
             write.close();
@@ -60,7 +61,12 @@ public class saveJsonTest {
         map2.put("testKey", list);
         JSONArray jsonArray1 = net.sf.json.JSONArray.fromObject(map2);
 
-        createJsonFile(jsonArray1, "X:/Test/");
+        createJsonFile(jsonArray1, "X:/Test.json");
+
+        System.out.println(jsonArray1);
+
+
+
     }
 
 }

@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest
 class DemoApplicationTests {
@@ -76,7 +74,62 @@ class DemoApplicationTests {
     }
 
 
+    @Test
+    void TestChange(){
+        Student student1 = new Student();
+        student1.setName("cc1");
+        student1.setAge(21);
 
+        Student student2 = new Student();
+        student2.setName("cc2");
+        student2.setAge(21);
+
+        List<Student> list = new ArrayList<>();
+        list.add(student1);
+        list.add(student2);
+        Map<String, List> map2 = new HashMap<>();
+        map2.put("testKey", list);
+//        JSONArray jsonArray1 = net.sf.json.JSONArray.fromObject(map2);
+        JSONObject jsonArray1 = JSONObject.fromObject(map2);
+
+
+        System.out.println(jsonArray1);
+
+    }
+
+
+    @Test
+    void Map2List(){
+        Map<Student,Student> map=new HashMap<>();
+
+        Student student1 = new Student();
+        student1.setName("cc1");
+        student1.setAge(21);
+
+        Student student2 = new Student();
+        student2.setName("cc2");
+        student2.setAge(21);
+
+        Student student3 = new Student();
+        student3.setName("cc3");
+        student3.setAge(21);
+
+        map.put(student1,student1);
+        map.put(student1,student2);
+        map.put(student1,student3);
+
+
+        System.out.println(map.size());
+
+
+    }
+
+    @Test
+    void TestChangeBigDecimal(){
+        BigDecimal bigDecimal=new BigDecimal(12.54).setScale(2,BigDecimal.ROUND_HALF_UP);
+        String test=bigDecimal.toString();
+        System.out.println(test);
+    }
 
 
 
