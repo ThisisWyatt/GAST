@@ -27,13 +27,16 @@ public class Aggregation {
             Point IndexVale=new Point();
             int compare = ((points[i][j].getNum().subtract(index)).abs()).compareTo(intervalNum); //差值
             if ( (compare <= 0)) { //差值在预定范围内 可继续向下递归搜索/**/
+                if(pointMap.containsKey(index)&&pointMap.get(index).getNum()!=null){
+                    if(pointMap.get(index).getNum().compareTo(points[i][j].getNum())<=0)
+                        IndexVale=points[i][j];
+                        pointMap.put(index, IndexVale);
+                }
+                else{
+                    pointMap.put(index,points[i][j]);
+                }
 
-                if(pointMap.get(index).getNum().compareTo(points[i][j].getNum())<=0)
-                    IndexVale=points[i][j];
-
-                pointMap.put(index, IndexVale);
-
-                points[i][j]=pointZero;
+                points[i][j]=pointZero;//标记 代表已经遍历过
 
                 search(i, j + 1, index, points, M, N, intervalNum, pointZero, pointMap);
                 search(i + 1, j, index, points, M, N, intervalNum, pointZero, pointMap);
@@ -53,6 +56,7 @@ public class Aggregation {
     public Map<BigDecimal, Point> markResult() {
 
         Point pointZero = new Point(new BigDecimal(0), new BigDecimal(0), new BigDecimal(0)); //判断符合在一组后 给该point赋此值
+
         ConversionToArrays conversionToArrays = new ConversionToArrays();
         Point[][] points = conversionToArrays.setArrays();
         long searchTime = System.currentTimeMillis();
@@ -62,7 +66,7 @@ public class Aggregation {
 //          为null的a[i][j]设默认值
         for (int i = 0; i < M; ++i) {
             for (int j = 0; j < N; ++j) {
-                if (points[i][j] == null) {
+                if (points[i][j] == null||points[i][j].getNum().compareTo(new BigDecimal(0.1))<0) {
                     points[i][j] = pointZero;
                 }
             }
@@ -72,7 +76,7 @@ public class Aggregation {
         Map<BigDecimal, Point> pointMap = new HashMap<>();
 
 //        设定判定为同一组的差值 正负差值为 intervalNum 即为一组
-        BigDecimal intervalNum = new BigDecimal(100);
+        BigDecimal intervalNum = new BigDecimal(1);
         for (int i = 0; i < M; ++i) {
             for (int j = 0; j < N; ++j) {
                 if (!points[i][j].equals(pointZero)) {
@@ -81,7 +85,6 @@ public class Aggregation {
                 }
             }
         }
-
         System.out.println("main Cost: " + (System.currentTimeMillis() - searchTime) + " ms");
 
         return pointMap;
@@ -99,10 +102,6 @@ public class Aggregation {
 //        聚合后得到的map key代表和这个点为起始搜索点的num值 value代表这一组num值高的点
         Map<BigDecimal, Point> test = aggregation.markResult();
 //
-//
-//
-//
-//
 //        将Map转为List
         List<Points> list = Map2ListUtil.Map2List(test);
 
@@ -112,10 +111,7 @@ public class Aggregation {
 //        生成JSONObject
         JSONObject jsonFile = JSONObject.fromObject(result);
 //         存到本地
-        saveJsonTest.createJsonFile(jsonFile, "X:/Tests.json");
-//
-//
-//
+        saveJsonTest.createJsonFile(jsonFile, "Y:/ests.json");
 //
 
         System.out.println("生成map大小为：" + test.size());
