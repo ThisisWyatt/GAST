@@ -28,6 +28,8 @@ public class Point {
     public Point() {
     }
 
+
+
     public BigDecimal getNum() {
         return num;
     }

@@ -5,7 +5,9 @@ import com.smart.demo.domain.Student;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestTemplate;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.w3c.dom.ls.LSInput;
 
 import java.math.BigDecimal;
 import java.util.*;
@@ -129,6 +131,39 @@ class DemoApplicationTests {
         BigDecimal bigDecimal=new BigDecimal(12.54).setScale(2,BigDecimal.ROUND_HALF_UP);
         String test=bigDecimal.toString();
         System.out.println(test);
+    }
+
+
+    @Test
+    void ListInMap(){
+        List<Student> list=new LinkedList<>();
+        list.add(new Student("cc1",21));
+        list.add(new Student("cc2",22));
+        Map<Integer,List<Student>> map=new HashMap<>();
+        map.put(1,list);
+        List<Student> list1=map.get(1);
+        Iterator iterator=list1.iterator();
+        while(iterator.hasNext()){
+            Student student= (Student) iterator.next();
+            System.out.println(student);
+        }
+
+    }
+
+
+    @Test
+    void Array2List(){
+        Student[] students=new Student[2];
+        Student student1=new Student("cc1",21);
+        Student student2=new Student("cc2",22);
+        students[0]=student1;
+        students[1]=student2;
+        List<Student> list=new LinkedList<>();
+        list=new ArrayList<>(Arrays.asList(students));
+        list.add(new Student("cc3",23));
+        for(Object o:list){
+            System.out.println(o);
+        }
     }
 
 

@@ -16,12 +16,13 @@ import java.util.Map;
  **/
 public class ConversionToArrays {
 
-    private static List<Point> listPoint = ReadData.readOriginalDate(); //获取原文件的数据
+     static List<Point> listPoint = ReadData.readOriginalDate(); //获取原文件的数据
+
 
     /**
      * @Descriptuion TODO 按照Num值排序
      **/
-    private static void sortByDifferenceOfNum() {
+    private static void sortByDifferenceOfNum(List<Point> listPoint) {
 
         Point[] pointArrays = new Point[listPoint.size()];
         for (int i = 0; i < listPoint.size(); ++i) {
@@ -59,7 +60,7 @@ public class ConversionToArrays {
     /**
      * @Descriptuion TODO 按照Lng值排序
      **/
-    private static Point[] sortByDifferenceOfLng() {
+    public static Point[] sortByDifferenceOfLng(List<Point> listPoint) {
 
 
         Point[] pointArrays = new Point[listPoint.size()];
@@ -88,7 +89,7 @@ public class ConversionToArrays {
     /**
      * @Descriptuion TODO 按照Lat值排序
      **/
-    private static Point[] sortByDifferenceOfLat() {
+    public static Point[] sortByDifferenceOfLat(List<Point> listPoint) {
         Point[] pointArrays = new Point[listPoint.size()];
         for (int i = 0; i < listPoint.size(); ++i) {
             pointArrays[i] = listPoint.get(i);
@@ -98,17 +99,6 @@ public class ConversionToArrays {
         Point.SortByLat sortByLat = new Point.SortByLat();
         Arrays.sort(pointArrays, sortByLat);
 
-//        将排序后的相邻Lat值的差值及其个数放入HashMap数组中
-//        Map<BigDecimal, Integer> map = new HashMap<>();
-//        for (int i = 1; i < pointArrays.length; ++i) {
-//            BigDecimal differenceLatValue = new BigDecimal(String.valueOf(pointArrays[i].getLat().subtract(pointArrays[i - 1].getLat())));
-//            map.put(differenceLatValue, map.getOrDefault(differenceLatValue, 0) + 1);
-//        }
-
-//        System.out.println("sortByDifferenceOfLat---------------");
-//        for(Map.Entry<BigDecimal,Integer> entry:map.entrySet()){
-//            System.out.println("difference: "+entry.getKey()+" num="+entry.getValue());
-//        }
 
         return pointArrays;
     }
@@ -118,8 +108,9 @@ public class ConversionToArrays {
      **/
     public Point[][] setArrays() {
 
+
 //        按照0.000028的间隔将lat值从小到大分成M份
-        Point[] sortByLat = sortByDifferenceOfLat();
+        Point[] sortByLat = sortByDifferenceOfLat(listPoint);
         BigDecimal miniLat = sortByLat[0].getLat(); //最小Lat值
         BigDecimal intervalLat = new BigDecimal(String.valueOf(0.000028));
         BigDecimal bigDecimalM = (sortByLat[sortByLat.length - 1].getLat().subtract(sortByLat[0].getLat()))
@@ -128,7 +119,7 @@ public class ConversionToArrays {
         int M = (int) (Math.round(doubleM)) + 1; //BigDecimal->long(round)->int 更加精确？ 感觉应该是
 
 //        按照0.000034的间隔将lng值从小到大分成N份
-        Point[] sortByLng = sortByDifferenceOfLng();
+        Point[] sortByLng = sortByDifferenceOfLng(listPoint);
         BigDecimal miniLng = sortByLng[0].getLng();//最小Lng值
         BigDecimal intervalLng = new BigDecimal(String.valueOf(0.000034));
         BigDecimal bigDecimalN = (sortByLng[sortByLng.length - 1].getLng().subtract(sortByLng[0].getLng()))
@@ -161,7 +152,7 @@ public class ConversionToArrays {
      **/
     public static void main(String[] args) {
 
-        sortByDifferenceOfNum();
+        sortByDifferenceOfNum(listPoint);
 
 
 //        long zero = System.currentTimeMillis();

@@ -44,7 +44,7 @@ public class ReadData {
 
         long IOCost = System.currentTimeMillis();
 
-        String path = Objects.requireNonNull(JsonTest.class.getClassLoader().getResource("2019072613.json")).getPath();
+        String path = Objects.requireNonNull(JsonTest.class.getClassLoader().getResource("2019072317.json")).getPath();
         String s = readJsonFile(path);
         JSONObject jsonObject = JSON.parseObject(s);
         JSONArray heatData = jsonObject.getJSONArray("heatData");//构建JSONArray数组
